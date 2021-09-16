@@ -1,47 +1,89 @@
-# TypeScript Next.js example
+# KCL Timetable
 
-This is a really simple project that shows the usage of Next.js with TypeScript.
+## Reverse Engineering
 
-## Preview
+Why is it, that every single time any sort of educational institution picks something to do timetables with or generally manage their stuff, they always pick the worst possible option, and it is **always** ASP.NET.
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+Unlike [Insight](https://gitlab.insrt.uk/insert/insight), which I previously had the pleasure of hooking into, this service which is apparently ran by Scientia is **even slower** than Insight. I genuinely thought I already saw the worst of the worst, with Insight I had to generally wait around 10 or so seconds to load my timetable, but with this? Haha, it takes 30 seconds just for a CORS OPTIONS request! Then takes a further 40 or so seconds to actually load the damn data.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-typescript)
+![](/reverse/lol.png)
 
-## Deploy your own
+Of course, being an ASP.NET website, the data you receive is tragic as usual but at least it's not just raw HTML like Insight did it.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript&project-name=with-typescript&repository-name=with-typescript)
-
-## How to use it?
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-typescript with-typescript-app
-# or
-yarn create next-app --example with-typescript with-typescript-app
+```json
+[
+  {
+    "Identity": [UUID],
+    "ResourceEvents": [
+      {
+        "IsBooking": false,
+        "BookingInfo": null,
+        "ResourceInfo": null,
+        "IsEdited": false,
+        "IsDeleted": false,
+        "EventIdentity": [UUID],
+        "StartDateTime": [ISO date string],
+        "EndDateTime": [ISO date string],
+        "UserManuallyAddedEvent": false,
+        "StatusIdentity": [UUID],
+        "Status": null,
+        "StatusBackgroundColor": null,
+        "StatusTextColor": null,
+        "Identity": [UUID],
+        "Location": "-snip-",
+        "Description": "Foundations of Computing 1",
+        "HostKey": "-snip-",
+        "Name": "-snip-",
+        "EventType": "Tutorial",
+        "Owner": [UUID],
+        "IsPublished": true,
+        "LastModified": [ISO date string],
+        "ParentKey": null,
+        "ExtraProperties": [
+          {
+            "Name": "Activity.UserText3",
+            "DisplayName": "Group(s)",
+            "Value": "",
+            "Rank": 1
+          },
+          {
+            "Name": "Activity.TeachingWeekPattern_PatternAsArray",
+            "DisplayName": "Weeks",
+            "Value": "6-10, 12-17",
+            "Rank": 2
+          },
+          {
+            "Name": "Activity.UserText2",
+            "DisplayName": "Additional Information",
+            "Value": "",
+            "Rank": 3
+          },
+          {
+            "Name": "Staff",
+            "DisplayName": "Staff",
+            "Value": "-snip-",
+            "Rank": 3
+          },
+          {
+            "Name": "Zone",
+            "DisplayName": "Zone",
+            "Value": "-snip-",
+            "Rank": 5
+          }
+        ],
+        "StatusName": null
+      },
+      -snip-
+    ]
+  }
+]
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+At first glance, it's not terrible, the casing is excusable but there are a few things that stick out:
+- `null` data types: not sure why you wouldn't just skip serialising these fields(?)
+- `Activity.TeachingWeekPattern_PatternAsArray`: self explanatory
+- `Activity.UserText2`, `Activity.UserText3`, `Zone`: why is this inconsistent??
 
-## Notes
+Although again, miles better than having to do XML parsing for when I had to deal with Insight.
 
-This example shows how to integrate the TypeScript type system into Next.js. Since TypeScript is supported out of the box with Next.js, all we have to do is to install TypeScript.
-
-```
-npm install --save-dev typescript
-```
-
-To enable TypeScript's features, we install the type declarations for React and Node.
-
-```
-npm install --save-dev @types/react @types/react-dom @types/node
-```
-
-When we run `next dev` the next time, Next.js will start looking for any `.ts` or `.tsx` files in our project and builds it. It even automatically creates a `tsconfig.json` file for our project with the recommended settings.
-
-Next.js has built-in TypeScript declarations, so we'll get autocompletion for Next.js' modules straight away.
-
-A `type-check` script is also added to `package.json`, which runs TypeScript's `tsc` CLI in `noEmit` mode to run type-checking separately. You can then include this, for example, in your `test` scripts.
+My worst complaint so far is the response times, but the Typescript types are going to be a headache.
