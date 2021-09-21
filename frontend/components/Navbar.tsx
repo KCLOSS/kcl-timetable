@@ -17,7 +17,7 @@ export default function Navbar({ user }: Props) {
             </div>
             { user ? <Link href='/profile'>
                 <a>
-                    <Avatar user={user} size={8} />
+                    <Avatar user={user} small />
                 </a>
             </Link> : <Link href='/login'>
                 <a>

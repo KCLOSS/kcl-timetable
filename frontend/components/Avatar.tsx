@@ -19,7 +19,7 @@ const OFFSETS = [
 ];
 
 export default function Avatar({ offset, small, user }: Props) {
-    const size = small ? `w-6 h-6` : `w-12 h-12`;
+    const size = small ? `w-8 h-8` : `w-12 h-12`;
 
     if (!user.avatar) {
         return (
