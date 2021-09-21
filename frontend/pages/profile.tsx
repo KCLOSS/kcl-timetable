@@ -8,17 +8,14 @@ import { AuthInterface } from "../lib/auth";
 
 interface FieldProps {
 	title: string;
-	value: string;
-	disabled?: boolean;
 	onChange?: (v: string) => void;
 }
 
-function Field({ title, value, disabled, onChange, ...props }: FieldProps & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
+function Field({ title, onChange, ...props }: FieldProps & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
 	return (
 		<div>
 			<div className="mt-2">{ title }</div>
 			<Input {...props}
-				value={value}
 				onChange={e => onChange(e.currentTarget.value)} />
 		</div>
 	)
