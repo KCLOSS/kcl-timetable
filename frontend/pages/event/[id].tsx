@@ -18,7 +18,7 @@ const IndexPage = ({ user, event }: Props) => {
 			<meta property="og:title" content={event.summary} />
 			<meta property="og:description" content={event.description} />
 			<meta property="og:type" content="website" />
-			<meta property="og:url" content="https://kcl.insrt.uk/" />
+			<meta property="og:url" content={`https://kcl.insrt.uk/event/${event._id}`} />
 
 			<Navbar user={user} />
 
