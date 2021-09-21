@@ -2,9 +2,14 @@
 
 This service takes advantage of the ability to subscribe directly to the Scientia calendar information allowing users to collate events together and see what events they share.
 
+This is also a mono-repo of two projects:
+- Frontend contains the web application showing timetables.
+- Data Worker contains a background process which syncs timetable information periodically.
+
 ## Scientia API
 
 API endpoint: https://scientia-eu-v2-4-api-d4-02.azurewebsites.net
+
 Full API "documentation": https://scientia-eu-v2-4-api-d4-02.azurewebsites.net/Help
 
 ## Reverse Engineering
