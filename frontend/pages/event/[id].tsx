@@ -14,9 +14,9 @@ const IndexPage = ({ user, event }: Props) => {
 	return (
 		<div className="select-none p-4 max-w-5xl mx-auto flex flex-col">
 			<title>{ event.summary }</title>
-			<meta property="og:site_name" content="KCL Timetables" />
+			<meta property="og:site_name" content={`${ dayjs(event.start).format("Do [of] MMMM [at] HH:mm") } to ${ dayjs(event.end).format("HH:mm") }`} />
 			<meta property="og:title" content={event.summary} />
-			<meta property="og:description" content={`${ dayjs(event.start).format("Do [of] MMMM [at] HH:mm") } to { dayjs(event.end).format("HH:mm") }\n**${ event.location }**\n\n${event.description}`} />
+			<meta property="og:description" content={event.description} />
 			<meta property="og:type" content="website" />
 			<meta property="og:url" content="https://kcl.insrt.uk/" />
 
