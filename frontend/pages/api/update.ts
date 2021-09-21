@@ -26,7 +26,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (avatar) {
         try {
             const url = new URL(avatar);
-            console.log(url.hostname);
             if (!WHITELIST.includes(url.hostname)) {
                 return res.status(400).send('URL not whitelisted!');
             }
