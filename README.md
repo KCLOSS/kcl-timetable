@@ -1,5 +1,7 @@
 # KCL Timetable
 
+This service takes advantage of the ability to subscribe directly to the Scientia calendar information allowing users to collate events together and see what events they share.
+
 ## Scientia API
 
 API endpoint: https://scientia-eu-v2-4-api-d4-02.azurewebsites.net

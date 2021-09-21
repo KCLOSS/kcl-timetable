@@ -1,0 +1,49 @@
+import axios from "axios";
+import ical from 'node-ical';
+import { Event } from "./entities";
+import { Collection } from "mongodb";
+
+const NAME_RE = /^X-WR-CALNAME:([^\n]*)$/mi;
+
+export async function fetchAndParse(identity: string): Promise<{ data: Event[], firstname: string }> {
+    const res = await axios(`https://scientia-eu-v2-4-api-d4-02.azurewebsites.net/api/ical/${process.env.INSTITUTE}/${identity}/timetable.ics`);
+    const data = res.data;
+    const events = await ical.async.parseICS(data);
+
+    return {
+        data: Object.keys(events)
+            .map(x => events[x])
+            .filter(x => x.type === 'VEVENT')
+            .map(x => {
+                const { uid, start, end, description, location, summary } = x;
+                
+                return {
+                    _id: uid,
+                    start,
+                    end,
+                    description,
+                    location,
+                    summary
+                } as unknown as Event
+            }),
+        firstname: data.match(NAME_RE)[1]
+    };
+}
+
+export async function saveEvents(collection: Collection, events: Event[], identity: string) {
+    for (const event of events) {
+        const { _id, ...fields } = event;
+        await collection.updateOne(
+            { _id },
+            {
+                $setOnInsert: fields,
+                $addToSet: {
+                    people: identity
+                }
+            },
+            {
+                upsert: true
+            }
+        );
+    }
+}

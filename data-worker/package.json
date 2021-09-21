@@ -1,0 +1,14 @@
+{
+  "name": "data-worker",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "author": "Paul Makles <insrt.uk>",
+  "license": "MIT",
+  "devDependencies": {
+    "tsc-watch": "^4.5.0",
+    "typescript": "^4.4.3"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}

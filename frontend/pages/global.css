@@ -1,0 +1,38 @@
+html {
+    image-rendering: smooth;
+}
+
+.skeleton {
+    background: linear-gradient(270deg, #d6d6d6, #eeeded);
+    background-size: 400% 400%;
+
+    -webkit-animation: SkeletonLoader 2s ease infinite;
+    -moz-animation: SkeletonLoader 2s ease infinite;
+    animation: SkeletonLoader 2s ease infinite;
+}
+
+@-webkit-keyframes SkeletonLoader {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+@-moz-keyframes SkeletonLoader {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+@keyframes SkeletonLoader {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    scrollbar-width: none;
+}
