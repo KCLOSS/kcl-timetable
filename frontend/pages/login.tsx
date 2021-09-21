@@ -20,7 +20,10 @@ const LoginPage = ({ user }: AuthInterface) => {
 
 	return (
 		<div className="select-none p-4 max-w-5xl mx-auto flex flex-col overflow-hidden h-screen">
+			<title>Login</title>
+
 			<Navbar user={user} />
+
 			<form className="w-full max-w-md m-auto flex flex-col gap-4" method="POST" action="/api/login">
 				<Input placeholder="Enter UUID or subscribe URL" name="id" value={id} onChange={e => setId(e.currentTarget.value)} />
 				<Button type="submit">Login</Button>

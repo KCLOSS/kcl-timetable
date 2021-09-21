@@ -40,15 +40,24 @@ const IndexPage = ({ user }: AuthInterface) => {
 
 	return (
 		<div className="select-none p-4 max-w-5xl mx-auto flex flex-col overflow-hidden h-screen">
+			<title>KCL Timetables</title>
+			<meta property="og:title" content="KCL Timetables" />
+			<meta property="og:type" content="website" />
+			<meta property="og:url" content="https://kcl.insrt.uk/" />
+			<meta property="og:description" content="Share timetable information with friends and figure out who's in your lectures and groups." />
+
 			<Navbar user={user} />
+
 			<div className="flex items-center">
 				<input className="mr-1" type="checkbox" id="self" name="self" checked={filter} onChange={() => setFilter(!filter)} disabled={!user} />
 				<label htmlFor="self" className={user ? "hover:text-gray-900" : "text-gray-500"}>Filter my events.</label>
 			</div>
+
 			<div className="flex items-center">
 				<input className="mr-1" type="checkbox" id="prel" name="prel" checked={preloader} onChange={() => setPreloader(!preloader)} />
 				<label htmlFor="prel" className={"hover:text-gray-900"}>Appreciate the preloader.</label>
 			</div>
+
 			{ (preloader || typeof data === 'undefined') && <Preloader /> }
 			{ !preloader && data && <ListRenderer {...data} filter={filter} user={user?._id} /> }
 		</div>

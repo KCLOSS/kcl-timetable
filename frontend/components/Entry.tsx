@@ -17,7 +17,7 @@ export default function Entry({ event, user }: Props) {
 		<div className="py-1 z-0">
 			<Link href={`/event/${event._id}`}>
 				<a>
-					<div className={`select-none rounded-md bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer p-4 shadow-sm flex items-center ${self ? `border border-indigo-500` : ''}`}>
+					<div className={`flex flex-col gap-4 lg:flex-row lg:gap-0 select-none rounded-md bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer p-4 shadow-sm items-center ${self ? `border border-indigo-500` : ''}`}>
 						<div className="flex-grow">
 							<span className="text-lg">{ event.summary }</span>
 							<div className="flex gap-1">
