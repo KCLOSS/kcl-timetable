@@ -9,6 +9,7 @@ import ListRenderer, { Everything } from "../components/ListRenderer";
 const IndexPage = ({ user }: AuthInterface) => {
 	const [data, setData] = useState<Everything | undefined>();
 	const [filter, setFilter] = useState(false);
+	const [preloader, setPreloader] = useState(false);
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
@@ -44,8 +45,12 @@ const IndexPage = ({ user }: AuthInterface) => {
 				<input className="mr-1" type="checkbox" id="self" name="self" checked={filter} onChange={() => setFilter(!filter)} disabled={!user} />
 				<label htmlFor="self" className={user ? "hover:text-gray-900" : "text-gray-500"}>Filter my events.</label>
 			</div>
-			{ typeof data === 'undefined' && <Preloader /> }
-			{ data && <ListRenderer {...data} filter={filter} user={user?._id} /> }
+			<div className="flex items-center">
+				<input className="mr-1" type="checkbox" id="prel" name="prel" checked={preloader} onChange={() => setPreloader(!preloader)} />
+				<label htmlFor="prel" className={"hover:text-gray-900"}>Appreciate the preloader.</label>
+			</div>
+			{ (preloader || typeof data === 'undefined') && <Preloader /> }
+			{ !preloader && data && <ListRenderer {...data} filter={filter} user={user?._id} /> }
 		</div>
 	)
 }

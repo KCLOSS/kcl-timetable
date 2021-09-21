@@ -13,12 +13,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { user, client } = await findUser(Identity);
     if (!user) return res.status(401).send('Not authenticated!');
 
-    let { surname, avatar } = req.body;
-    if (typeof surname !== 'string' || typeof avatar !== 'string') return res.status(400).send('Bad data.');
+    let { surname, avatar, bio } = req.body;
+    if ((surname && typeof surname !== 'string') ||
+        (avatar && typeof avatar !== 'string') ||
+        (bio && typeof bio !== 'string')) return res.status(400).send('Bad data.');
 
     // Just in case.
     surname = surname?.slice(0, 64);
     avatar = avatar?.slice(0, 256);
+    bio = bio?.slice(0, 64);
 
     if (avatar) {
         try {
@@ -35,7 +38,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await client
         .db('timetables')
         .collection('users')
-        .updateOne({ _id: Identity }, { $set: { surname, avatar } });
+        .updateOne({ _id: Identity }, { $set: { surname, avatar, bio } });
 
     res.status(200).send('OK');
 }

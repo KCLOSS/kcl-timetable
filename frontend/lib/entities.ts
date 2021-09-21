@@ -13,4 +13,5 @@ export interface User {
     firstname: string;
     surname?: string;
     avatar?: string;
+    bio?: string;
 }

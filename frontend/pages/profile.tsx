@@ -1,8 +1,9 @@
 import axios from "axios";
-import { useState } from "react";
+import { InputHTMLAttributes, useState } from "react";
 import Input from "../components/Input";
 import Navbar from "../components/Navbar";
 import Button from "../components/Button";
+import Footer from "../components/Footer";
 import { AuthInterface } from "../lib/auth";
 
 interface FieldProps {
@@ -10,18 +11,15 @@ interface FieldProps {
 	value: string;
 	disabled?: boolean;
 	onChange?: (v: string) => void;
-	onKeyDown?: () => void;
 }
 
-function Field({ title, value, onChange, disabled, onKeyDown }: FieldProps) {
+function Field({ title, value, disabled, onChange, ...props }: FieldProps & Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
 	return (
 		<div>
 			<div className="mt-2">{ title }</div>
-			<Input
+			<Input {...props}
 				value={value}
-				onKeyDown={onKeyDown}
-				onChange={e => onChange(e.currentTarget.value)}
-				disabled={disabled} />
+				onChange={e => onChange(e.currentTarget.value)} />
 		</div>
 	)
 }
@@ -31,6 +29,7 @@ const ProfilePage = ({ user }: AuthInterface) => {
 
 	const [surname, setSurname] = useState(user.surname ?? '');
 	const [avatar, setAvatar] = useState(user.avatar ?? '');
+	const [bio, setBio] = useState(user.bio ?? '');
 
 	const [state, setState] = useState<'unchanged' | 'changed' | 'processing'>('unchanged');
 	const [error, setError] = useState<string | undefined>();
@@ -43,7 +42,8 @@ const ProfilePage = ({ user }: AuthInterface) => {
 			'/api/update',
 			{
 				surname,
-				avatar
+				avatar,
+				bio
 			}
 		)
 		.catch(error => setError(error?.response?.data ?? (''+error)))
@@ -64,6 +64,7 @@ const ProfilePage = ({ user }: AuthInterface) => {
 				onChange={setSurname}
 				disabled={state === 'processing'}
 				onKeyDown={() => state !== 'changed' && setState('changed')}
+				maxLength={64}
 			/>
 			<Field
 				title="Avatar"
@@ -71,6 +72,15 @@ const ProfilePage = ({ user }: AuthInterface) => {
 				onChange={setAvatar}
 				disabled={state === 'processing'}
 				onKeyDown={() => state !== 'changed' && setState('changed')}
+				maxLength={256}
+			/>
+			<Field
+				title="Short Bio"
+				value={bio}
+				onChange={setBio}
+				disabled={state === 'processing'}
+				onKeyDown={() => state !== 'changed' && setState('changed')}
+				maxLength={64}
 			/>
 			<span className="text-sm py-2">
 				<b>Whitelisted origins:</b>
@@ -90,7 +100,7 @@ const ProfilePage = ({ user }: AuthInterface) => {
 			{
 				error &&
 				<div className="text-red-700 mt-4">
-					{ ''+error }
+					{ error }
 				</div>
 			}
 			<div className="mx-auto py-16">
@@ -98,6 +108,7 @@ const ProfilePage = ({ user }: AuthInterface) => {
 					<Button>Logout</Button>
 				</a>
 			</div>
+			<Footer />
 		</div>
 	)
 }

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import Footer from "../components/Footer";
 import Input from "../components/Input";
 import Navbar from "../components/Navbar";
 import { AuthInterface } from "../lib/auth";
@@ -25,6 +26,7 @@ const LoginPage = ({ user }: AuthInterface) => {
 				<Button type="submit">Login</Button>
 				<a className="text-center text-gray-700 hover:text-gray-900 underline" href="https://autumn.revolt.chat/attachments/gsXjnExz_NnKq-qgUzAdZ-dRui97Ul2DHvwF8gdeC5/image.png">How to get my subscribe URL?</a>
 			</form>
+			<Footer />
 		</div>
 	)
 }

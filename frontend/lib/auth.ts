@@ -22,7 +22,7 @@ export async function getServerSideProps(context): Promise<{ props: AuthInterfac
 	return {
 		props: {
 			user
-		},
+		}
 	}
 }
 

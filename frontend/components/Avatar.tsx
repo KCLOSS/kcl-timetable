@@ -9,7 +9,7 @@ interface Props {
 export default function Avatar({ size, offset, user }: Props) {
     if (!user.avatar) {
         return (
-            <div className={`w-${size ?? 12} h-${size ?? 12} rounded-full relative bg-gray-300 flex items-center justify-center left-${(offset ?? 0) * 4}`}>
+            <div className={`w-${size ?? 12} h-${size ?? 12} flex-shrink-0 rounded-full relative bg-gray-300 flex items-center justify-center left-${(offset ?? 0) * 4}`}>
                 { user.firstname[0] }
                 { user.surname && user.surname[0] }
             </div>
@@ -17,6 +17,6 @@ export default function Avatar({ size, offset, user }: Props) {
     }
 
     return (
-        <img className={`w-${size ?? 12} h-${size ?? 12} rounded-full object-cover relative left-${(offset ?? 0) * 4}`} src={user.avatar} />
+        <img className={`w-${size ?? 12} h-${size ?? 12} flex-shrink-0 rounded-full object-cover relative left-${(offset ?? 0) * 4}`} src={user.avatar} />
     )
 }
