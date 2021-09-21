@@ -23,7 +23,7 @@ export default function Avatar({ offset, small, user }: Props) {
 
     if (!user.avatar) {
         return (
-            <div className={`${size} flex-shrink-0 rounded-full relative bg-gray-300 flex items-center justify-center ${OFFSETS[(offset ?? 0) * 4]}`}>
+            <div className={`${size} flex-shrink-0 rounded-full relative bg-gray-300 flex items-center justify-center ${OFFSETS[offset]}`}>
                 { user.firstname[0] }
                 { user.surname && user.surname[0] }
             </div>
@@ -31,6 +31,6 @@ export default function Avatar({ offset, small, user }: Props) {
     }
 
     return (
-        <img className={`${size} flex-shrink-0 rounded-full object-cover relative ${OFFSETS[(offset ?? 0) * 4]}`} src={user.avatar} />
+        <img className={`${size} flex-shrink-0 rounded-full object-cover relative ${OFFSETS[offset ?? 0]}`} src={user.avatar} />
     )
 }
