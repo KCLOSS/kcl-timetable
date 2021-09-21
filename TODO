@@ -4,3 +4,4 @@ Public comments on events?
 Add a title to the website.
 Add cron job to update timetable data.
 Filter out old events.
+Handle user IDs not existing.
