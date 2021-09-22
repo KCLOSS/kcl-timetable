@@ -55,10 +55,10 @@ const IndexPage = ({ user }: AuthInterface) => {
 				<label htmlFor="self" className={user ? "hover:text-gray-900" : "text-gray-500"}>Filter my events.</label>
 			</div>
 
-			<div className="flex items-center">
+			{/*<div className="flex items-center">
 				<input className="mr-1" type="checkbox" id="prel" name="prel" checked={preloader} onChange={() => setPreloader(!preloader)} />
 				<label htmlFor="prel" className={"hover:text-gray-900"}>Appreciate the preloader.</label>
-			</div>
+			</div>*/}
 
 			{ (preloader || typeof data === 'undefined') && <Preloader /> }
 			{ !preloader && data && <ListRenderer {...data} filter={filter} user={user?._id} /> }

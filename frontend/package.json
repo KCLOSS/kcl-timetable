@@ -11,6 +11,7 @@
     "axios": "^0.21.4",
     "cookie": "^0.4.1",
     "dayjs": "^1.10.7",
+    "exponential-backoff": "^3.1.0",
     "mongodb": "^4.1.2",
     "next": "latest",
     "node-ical": "^0.13.0",
