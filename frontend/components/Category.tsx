@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function Category({ raw }: Props) {
-    const date = useMemo(() => dayjs(raw).format('Do of MMMM'), [raw]);
+    const date = useMemo(() => dayjs(raw).format('dddd, Do of MMMM'), [raw]);
 
     return (
         <div className="select-none flex pt-8 pb-2 bg-white z-50">
