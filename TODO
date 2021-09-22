@@ -1,7 +1,5 @@
 Add passphrase to accounts to prevent unwanted edits.
 Add a way to mark someone as a friend to show them first.
 Public comments on events?
-Add a title to the website.
 Add cron job to update timetable data.
 Filter out old events.
-Handle user IDs not existing.

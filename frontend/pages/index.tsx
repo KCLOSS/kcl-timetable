@@ -2,6 +2,7 @@ import axios from "axios";
 import Navbar from "../components/Navbar";
 import { useEffect, useState } from "react"
 import { AuthInterface } from "../lib/auth";
+import { backOff } from "exponential-backoff";
 import { Event, User } from "../lib/entities";
 import Preloader from "../components/Preloader";
 import ListRenderer, { Everything } from "../components/ListRenderer";
@@ -13,7 +14,7 @@ const IndexPage = ({ user }: AuthInterface) => {
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
-			axios('/api/everything')
+			backOff(() => axios('/api/everything'))
 				.then(res => res.data)
 				.then(({ events, users: userArray }: { events: Event[], users: User[] }) => {
 					const users = {};
@@ -28,6 +29,7 @@ const IndexPage = ({ user }: AuthInterface) => {
 									...event,
 									people: (event.people ?? [])
 										.map(id => users[id])
+										.filter(x => typeof x !== 'undefined')
 								}
 							}),
 						users
