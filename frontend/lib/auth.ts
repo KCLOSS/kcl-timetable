@@ -14,7 +14,7 @@ export async function findUser(Identity?: string) {
     }
 }
 
-export async function getServerSideProps(context): Promise<{ props: AuthInterface }> {
+export async function getServerSideProps(context: any): Promise<{ props: AuthInterface }> {
 	const { Identity } = context.req.cookies;
     const { user } = await findUser(Identity);
 

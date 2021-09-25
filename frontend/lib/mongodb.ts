@@ -21,7 +21,7 @@ export async function connectToDatabase(): Promise<MongoClient> {
 
   if (!cached.promise) {
     cached.promise = MongoClient
-    .connect(MONGODB_URI)
+    .connect(MONGODB_URI as string)
   }
   
   cached.conn = await cached.promise
