@@ -3,14 +3,18 @@ import Avatar from "../../components/Avatar";
 import { AuthInterface } from "../../lib/auth";
 import { EventWithUsers } from "../../components/ListRenderer";
 
+import Utterances from "@insertish/utterances";
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import AvatarGroup from "../../components/AvatarGroup";
 dayjs.extend(advancedFormat);
 
 type Props = AuthInterface & { event?: EventWithUsers };
 
+const person = `select-none rounded-md bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer p-4 my-2 shadow-sm flex items-center gap-2`;
 const IndexPage = ({ user, event }: Props) => {
 	if (!event) return <>404</>;
 
+	const [showAll, setAll] = useState(false);
 	return (
 		<div className="select-none p-4 max-w-5xl mx-auto flex flex-col">
 			<title>{ event.summary }</title>
@@ -33,8 +37,9 @@ const IndexPage = ({ user, event }: Props) => {
 			<div>
 				{
 					event.people
+						.slice(0, showAll ? event.people.length : 4)
 						.map(x =>
-							<div key={x._id} className="select-none rounded-md bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer p-4 my-2 shadow-sm flex items-center gap-2">
+							<div key={x._id} className={person}>
 								<Avatar user={x} />
 								<div className="flex-grow flex flex-col">
 									<span>{x.firstname} {x.surname}</span>
@@ -43,7 +48,21 @@ const IndexPage = ({ user, event }: Props) => {
 							</div>	
 						)
 				}
+				{
+					event.people.length > 4 && !showAll &&
+					<div onClick={() => setAll(true)} className={`flex hover:border-indigo-500 bg-indigo-100 hover:bg-indigo-200 border-2 ${person}`}>
+						<span className="flex-grow text-xl">Click to see all.</span>
+						<AvatarGroup people={event.people.slice(5)} overflow={10} />
+					</div>
+				}
 			</div>
+
+			<h2 className="text-xl mt-4 mb-2 text-center">Discuss With Others</h2>
+			<Utterances
+				repo="KCLOSS/event-discussion"
+				//theme="preferred-color-scheme"
+				theme="github-light"
+				async />
 		</div>
 	)
 }
@@ -51,6 +70,8 @@ const IndexPage = ({ user, event }: Props) => {
 import { getServerSideProps as getProps } from '../../lib/auth';
 import { connectToDatabase } from "../../lib/mongodb";
 import dayjs from "dayjs";
+import { useState } from "react";
+import { EventEmitter } from "stream";
 
 export async function getServerSideProps(context): Promise<{ props: Props }> {
 	const { props } = await getProps(context);

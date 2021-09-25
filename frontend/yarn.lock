@@ -77,6 +77,13 @@
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.2.0.tgz#f3933a44e365864f4dad5db94158106d511e8131"
   integrity sha512-sqKVVVOe5ivCaXDWivIJYVSaEgdQK9ul7a4Kity5Iw7u9+wBAPbX1RMSnLLmp7O4Vzj0WOWwMAJsTL00xwaNug==
 
+"@insertish/utterances@^0.1.3-patch.1":
+  version "0.1.3-patch.1"
+  resolved "https://registry.yarnpkg.com/@insertish/utterances/-/utterances-0.1.3-patch.1.tgz#eb4ed7e8c6e3e236404ca01a9eb33da3119a4989"
+  integrity sha512-+WZR/OjgGYb1myh2+uEnUarzX8Vl7veH2FY2n8e4SeO9hV06cVG1pZQ5QY9UrDaGt/ppw38QrPV4MGcmGn9XIg==
+  dependencies:
+    react "^17.0.2"
+
 "@napi-rs/triples@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@napi-rs/triples/-/triples-1.0.3.tgz#76d6d0c3f4d16013c61e45dfca5ff1e6c31ae53c"

@@ -15,7 +15,11 @@ const OFFSETS = [
     'left-12',
     'left-16',
     'left-20',
-    'left-24'
+    'left-24',
+    'left-28',
+    'left-32',
+    'left-36',
+    'left-40'
 ];
 
 export default function Avatar({ offset, small, user }: Props) {

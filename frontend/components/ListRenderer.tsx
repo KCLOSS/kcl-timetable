@@ -30,6 +30,12 @@ export default function ListRenderer({ users, events, user, filter }: Props) {
             }
         }
         
+        const today = new Date();
+        today.setUTCHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        today.setDate(today.getDate() - 1);
+
         setGroups(
             Object
                 .keys(groups)
@@ -40,6 +46,7 @@ export default function ListRenderer({ users, events, user, filter }: Props) {
                             .sort((b, a) => +new Date(b.start) - +new Date(a.start))
                     }
                 })
+                .filter(x => new Date(x.date) > today)
                 .sort((b, a) => +new Date(b.date) - +new Date(a.date))
         );
     }, [users, events, filter]);

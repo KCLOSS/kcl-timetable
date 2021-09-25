@@ -1,14 +1,12 @@
 import dayjs from "dayjs";
 import Link from "next/link";
-import Avatar from "./Avatar";
+import AvatarGroup from "./AvatarGroup";
 import { EventWithUsers } from "./ListRenderer";
 
 interface Props {
     event: EventWithUsers;
 	user?: string;
 }
-
-const OVERFLOW = 5;
 
 export default function Entry({ event, user }: Props) {
 	const self = user && event.people.find(x => x._id === user);
@@ -28,14 +26,7 @@ export default function Entry({ event, user }: Props) {
 								<span className="text-indigo-800">Online Event</span></> }
 							</div>
 						</div>
-						<div className="flex items-center">
-							{
-								event.people
-									.slice(0, OVERFLOW)
-									.map((user, i) => <Avatar key={user._id} user={user} offset={Math.min(event.people.length, OVERFLOW) - i - 1} />)
-							}
-							{ event.people.length > OVERFLOW && <span className="pl-2 text-gray-700">+ {event.people.length - OVERFLOW} more</span> }
-						</div>
+						<AvatarGroup people={event.people} overflow={5} />
 					</div>
 				</a>
 			</Link>
