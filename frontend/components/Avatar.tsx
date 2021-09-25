@@ -6,7 +6,7 @@ interface Props {
     user: User;
 }
 
-// Due to a limitation in Tailwind
+/*// Due to a limitation in Tailwind
 // we need to specify full strings.
 const OFFSETS = [
     'left-0',
@@ -20,14 +20,14 @@ const OFFSETS = [
     'left-32',
     'left-36',
     'left-40'
-];
+];*/
 
 export default function Avatar({ offset, small, user }: Props) {
     const size = small ? `w-8 h-8` : `w-12 h-12`;
 
     if (!user.avatar) {
         return (
-            <div className={`${size} flex-shrink-0 rounded-full relative bg-gray-300 flex items-center justify-center ${OFFSETS[offset]}`}>
+            <div className={`${size} flex-shrink-0 rounded-full bg-gray-300 flex items-center justify-center sus`}>
                 { user.firstname[0] }
                 { user.surname && user.surname[0] }
             </div>
@@ -35,6 +35,6 @@ export default function Avatar({ offset, small, user }: Props) {
     }
 
     return (
-        <img className={`${size} flex-shrink-0 rounded-full object-cover relative ${OFFSETS[offset ?? 0]}`} src={user.avatar} />
+        <img className={`${size} flex-shrink-0 rounded-full object-cover sus`} src={user.avatar} />
     )
 }

@@ -36,3 +36,9 @@ html {
 * {
     scrollbar-width: none;
 }
+
+:not(:first-child).sus {
+    --not-the-impostor: ;
+    display: relative;
+    margin-left: -20px;
+}

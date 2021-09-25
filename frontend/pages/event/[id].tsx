@@ -50,9 +50,9 @@ const IndexPage = ({ user, event }: Props) => {
 				}
 				{
 					event.people.length > 4 && !showAll &&
-					<div onClick={() => setAll(true)} className={`flex hover:border-indigo-500 bg-indigo-100 hover:bg-indigo-200 border-2 ${person}`}>
+					<div onClick={() => setAll(true)} className={`flex flex-col gap-4 lg:flex-row lg:gap-0 hover:border-indigo-500 bg-indigo-100 hover:bg-indigo-200 border-2 ${person}`}>
 						<span className="flex-grow text-xl">Click to see all.</span>
-						<AvatarGroup people={event.people.slice(5)} overflow={10} />
+						<AvatarGroup people={event.people.slice(5)} overflow={8} />
 					</div>
 				}
 			</div>
