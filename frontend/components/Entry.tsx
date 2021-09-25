@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import Link from "next/link";
+import Summary from "./Summary";
 import AvatarGroup from "./AvatarGroup";
 import { EventWithUsers } from "./ListRenderer";
 
@@ -17,7 +18,7 @@ export default function Entry({ event, user }: Props) {
 				<a>
 					<div className={`flex flex-col gap-4 lg:flex-row lg:gap-0 select-none rounded-md bg-gray-100 hover:bg-gray-200 transition-colors cursor-pointer p-4 shadow-sm items-center ${self ? `border border-indigo-500` : ''}`}>
 						<div className="flex-grow">
-							<span className="text-lg">{ event.summary }</span>
+							<Summary title={event.summary} />
 							<div className="flex gap-1">
 								<span className="text-indigo-800">{ dayjs(event.start).format("HH:mm") }-{ dayjs(event.end).format("HH:mm") }</span>
 								{ event.location && <><span>at</span>
