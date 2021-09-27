@@ -16,7 +16,7 @@ const IndexPage = ({ user, event }: Props) => {
 
 	const [showAll, setAll] = useState(false);
 	return (
-		<div className="select-none p-4 max-w-5xl mx-auto flex flex-col">
+		<div className="p-4 max-w-5xl mx-auto flex flex-col">
 			<title>{ event.summary }</title>
 			<meta property="og:site_name" content={`${ dayjs(event.start).format("Do [of] MMMM [at] HH:mm") } to ${ dayjs(event.end).format("HH:mm") }`} />
 			<meta property="og:title" content={event.summary} />
@@ -27,6 +27,7 @@ const IndexPage = ({ user, event }: Props) => {
 			<Navbar user={user} />
 
 			<h1 className="text-2xl text-indigo-600">{ event.summary }</h1>
+			<Summary title={event.summary} />
 			<span className="font-medium">{ dayjs(event.start).format("Do [of] MMMM [at] HH:mm") } to { dayjs(event.end).format("HH:mm") }</span>
 			<span>{ event.location }</span>
 
@@ -72,6 +73,7 @@ import { connectToDatabase } from "../../lib/mongodb";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { EventEmitter } from "stream";
+import Summary from "../../components/Summary";
 
 export async function getServerSideProps(context): Promise<{ props: Props }> {
 	const { props } = await getProps(context);
