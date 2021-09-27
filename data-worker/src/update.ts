@@ -10,7 +10,21 @@ export async function sync() {
     const events: Record<string, Event> = { };
     for (const user of users) {
         console.log(`Processing ${user.firstname}${user.surname ? ` ${user.surname}` : ''} - ${user._id}`);
-        const { data } = await fetchAndParse(user._id);
+
+        let tries = 0,
+            data;
+        
+        while (!data) {
+            if (tries > 0) console.log(`Try ${tries + 1}`);
+            if (tries > 4) throw "Exceeded maximum tries.";
+
+            try {
+                const { data: d } = await fetchAndParse(user._id);
+                data = d;
+                tries++;
+            } catch (err) {}
+        }
+
         for (const event of data) {
             if (events[event._id]) {
                 events[event._id].people!.push(user._id);
@@ -31,4 +45,6 @@ export async function sync() {
 
     await db.collection('events').deleteMany({});
     await db.collection('events').insertMany(new_events as any);
+
+    console.log('We are done!');
 }
