@@ -18,7 +18,7 @@ const IndexPage = ({ user, event }: Props) => {
 	return (
 		<div className="p-4 max-w-5xl mx-auto flex flex-col">
 			<title>{ event.summary }</title>
-			<meta property="og:site_name" content={`${ dayjs(event.start).format("Do [of] MMMM [at] HH:mm") } to ${ dayjs(event.end).format("HH:mm") }`} />
+			<meta property="og:site_name" content={`${ dayjs(event.start).tz(TZ).format("Do [of] MMMM [at] HH:mm") } to ${ dayjs(event.end).tz(TZ).format("HH:mm") }`} />
 			<meta property="og:title" content={event.summary} />
 			<meta property="og:description" content={event.description} />
 			<meta property="og:type" content="website" />
@@ -28,7 +28,7 @@ const IndexPage = ({ user, event }: Props) => {
 
 			<h1 className="text-2xl text-indigo-600">{ event.summary }</h1>
 			<Summary title={event.summary} />
-			<span className="font-medium">{ dayjs(event.start).format("Do [of] MMMM [at] HH:mm") } to { dayjs(event.end).format("HH:mm") }</span>
+			<span className="font-medium">{ dayjs(event.start).tz(TZ).format("Do [of] MMMM [at] HH:mm") } to { dayjs(event.end).tz(TZ).format("HH:mm") }</span>
 			<span>{ event.location }</span>
 
 			<h2 className="text-xl mt-4 mb-2">Description</h2>
@@ -74,6 +74,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { EventEmitter } from "stream";
 import Summary from "../../components/Summary";
+import { TZ } from "../../lib/constants";
 
 export async function getServerSideProps(context): Promise<{ props: Props }> {
 	const { props } = await getProps(context);

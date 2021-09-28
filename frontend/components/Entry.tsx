@@ -3,6 +3,7 @@ import Link from "next/link";
 import Summary from "./Summary";
 import AvatarGroup from "./AvatarGroup";
 import { EventWithUsers } from "./ListRenderer";
+import { TZ } from "../lib/constants";
 
 interface Props {
     event: EventWithUsers;
@@ -20,7 +21,7 @@ export default function Entry({ event, user }: Props) {
 						<div className="flex-grow">
 							<Summary title={event.summary} />
 							<div className="flex gap-1">
-								<span className="text-indigo-800">{ dayjs(event.start).format("HH:mm") }-{ dayjs(event.end).format("HH:mm") }</span>
+								<span className="text-indigo-800">{ dayjs(event.start).tz(TZ).format("HH:mm") }-{ dayjs(event.end).tz(TZ).format("HH:mm") }</span>
 								{ event.location && <><span>at</span>
 								<span className="text-indigo-800">{ event.location }</span></> }
 								{ !event.location && <><span>is an</span>
