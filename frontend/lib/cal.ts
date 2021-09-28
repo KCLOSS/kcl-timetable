@@ -42,7 +42,10 @@ export async function saveEvents(collection: Collection, events: Event[], identi
         await collection.updateOne(
             { _id },
             {
-                $setOnInsert: fields,
+                $setOnInsert: {
+                    ...fields,
+                    people: [ identity ]
+                },
                 $addToSet: {
                     people: identity
                 }
