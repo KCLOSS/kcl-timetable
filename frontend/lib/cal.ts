@@ -38,21 +38,24 @@ export async function fetchAndParse(identity: string): Promise<{ data: Event[], 
 
 export async function saveEvents(collection: Collection, events: Event[], identity: string) {
     for (const event of events) {
-        const { _id, ...fields } = event;
-        await collection.updateOne(
-            { _id },
-            {
-                $setOnInsert: {
-                    ...fields,
-                    people: [ identity ]
-                },
-                $addToSet: {
-                    people: identity
+        const { _id } = event;
+
+        // This is sub-optimal and increases duration by up to 2x but
+        // I can't be asked to figure out using $setOnInsert and $addToSet together.
+        if (await collection.findOne({ _id })) {
+            await collection.updateOne(
+                { _id },
+                {
+                    $addToSet: {
+                        people: identity
+                    }
                 }
-            },
-            {
-                upsert: true
-            }
-        );
+            );
+        } else {
+            await collection.insertOne({
+                ...event as any,
+                people: [ identity ]
+            });
+        }
     }
 }
