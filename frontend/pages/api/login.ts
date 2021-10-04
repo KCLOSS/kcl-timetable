@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         res.setHeader('Set-Cookie', serialize('Identity', _id, { maxAge: 3600 * 24 * 30 * 12, path: '/' }));
 
-        if (user) {
+        if (user && !user.force) {
             res.redirect('/profile');
         } else {
             const { data, firstname } = await fetchAndParse(_id);

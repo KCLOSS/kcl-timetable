@@ -37,25 +37,32 @@ export async function fetchAndParse(identity: string): Promise<{ data: Event[], 
 }
 
 export async function saveEvents(collection: Collection, events: Event[], identity: string) {
-    for (const event of events) {
-        const { _id } = event;
+    const $in = events.map(x => x._id);
+    const arr = await collection.find({ _id: { $in } }).toArray();
 
-        // This is sub-optimal and increases duration by up to 2x but
-        // I can't be asked to figure out using $setOnInsert and $addToSet together.
-        if (await collection.findOne({ _id })) {
-            await collection.updateOne(
-                { _id },
-                {
-                    $addToSet: {
-                        people: identity
-                    }
+    let update_ids = [];
+    for (const existing of arr) {
+        update_ids.push(
+            events.splice(events.findIndex(x => x._id === existing._id), 1)[0]._id
+        );
+    }
+
+    if (events.length > 0) {
+        await collection
+            .insertMany(events.map(event => {
+                return {
+                    ...event,
+                    people: [ identity ]
                 }
-            );
-        } else {
-            await collection.insertOne({
-                ...event as any,
-                people: [ identity ]
-            });
-        }
+            }) as any);
+    }
+
+    if (update_ids.length > 0) {
+        await collection
+            .updateMany({ _id: $in }, {
+                $addToSet: {
+                    people: identity
+                }
+            } as any);
     }
 }
