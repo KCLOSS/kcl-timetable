@@ -9,7 +9,7 @@ import ListRenderer, { Everything } from "../components/ListRenderer";
 
 const IndexPage = ({ user }: AuthInterface) => {
 	const [data, setData] = useState<Everything | undefined>();
-	const [filter, setFilter] = useState(false);
+	const [filter, setFilter] = useState(true);
 	const [preloader, setPreloader] = useState(false);
 
 	useEffect(() => {
@@ -61,7 +61,7 @@ const IndexPage = ({ user }: AuthInterface) => {
 			</div>*/}
 
 			{ (preloader || typeof data === 'undefined') && <Preloader /> }
-			{ !preloader && data && <ListRenderer {...data} filter={filter} user={user?._id} /> }
+			{ !preloader && data && <ListRenderer {...data} filter={filter && user} user={user?._id} /> }
 		</div>
 	)
 }

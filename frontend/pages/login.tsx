@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 import { AuthInterface } from "../lib/auth";
 
 const UUID = `[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}`;
-const URL_RE = `^https:\/\/scientia-eu-v2-4-api-d4-02.azurewebsites.net\/api\/ical\/(${UUID})\/(${UUID})\/timetable.ics$`;
+const URL_RE = `^https:\/\/[\w\d-]+.azurewebsites.net\/api\/ical\/(${UUID})\/(${UUID})\/timetable.ics$`;
 
 const LoginPage = ({ user }: AuthInterface) => {
 	const [id, setId] = useState('');
