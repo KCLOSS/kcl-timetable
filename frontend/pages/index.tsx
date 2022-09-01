@@ -61,7 +61,7 @@ const IndexPage = ({ user }: AuthInterface) => {
 			</div>*/}
 
 			{ (preloader || typeof data === 'undefined') && <Preloader /> }
-			{ !preloader && data && <ListRenderer {...data} filter={filter && user} user={user?._id} /> }
+			{ !preloader && data && <ListRenderer {...data} filter={user && filter} user={user?._id} /> }
 		</div>
 	)
 }
