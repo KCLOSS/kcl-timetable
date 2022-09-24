@@ -9,30 +9,33 @@ export async function sync() {
     const users = await db.collection('users').find().toArray() as User[];
     const events: Record<string, Event> = { };
     for (const user of users) {
-        console.log(`Processing ${user.firstname}${user.surname ? ` ${user.surname}` : ''} - ${user._id}`);
+        console.log(`Processing ${user.firstname.replace(/\r/g, '')}${user.surname ? ` ${user.surname}` : ''} - ${user._id}`);
 
         let tries = 0,
             data;
         
         while (!data) {
             if (tries > 0) console.log(`Try ${tries + 1}`);
-            if (tries > 4) throw "Exceeded maximum tries.";
+            if (tries > 4) break;
 
             try {
                 const { data: d } = await fetchAndParse(user._id);
                 data = d;
+            } catch (err) {
                 tries++;
-            } catch (err) {}
+            }
         }
 
-        for (const event of data) {
-            if (events[event._id]) {
-                events[event._id].people!.push(user._id);
-            } else {
-                events[event._id] = {
-                    ...event,
-                    people: [user._id]
-                };
+        if (data) {
+            for (const event of data) {
+                if (events[event._id]) {
+                    events[event._id].people!.push(user._id);
+                } else {
+                    events[event._id] = {
+                        ...event,
+                        people: [user._id]
+                    };
+                }
             }
         }
     }
