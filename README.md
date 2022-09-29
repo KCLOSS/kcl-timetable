@@ -1,8 +1,13 @@
+# TODO: rewrite everything
+
+This works as-is, but a lot of questionable code was written.
+
 # KCL Timetable
 
 This service takes advantage of the ability to subscribe directly to the Scientia calendar information allowing users to collate events together and see what events they share.
 
 This is also a mono-repo of two projects:
+
 - Frontend contains the web application showing timetables.
 - Data Worker contains a background process which syncs timetable information periodically.
 
@@ -15,6 +20,7 @@ Full API "documentation": https://scientia-eu-v2-4-api-d4-02.azurewebsites.net/H
 ### Constructing Requests
 
 So there's a couple of requests being sent:
+
 - `/Calendar`: fetches your events
 - `/BookingRequests`: presumably used to display potentially scheduled tasks?
   I'm not entirely sure, but we'll find out in the future.
@@ -25,6 +31,7 @@ So there's a couple of requests being sent:
 - `/UserProfile`: gets some information about you
 
 Let's look into the `Calendar` requests then:
+
 - Seems to be an `Authorization` header with a Bearer token.
 - Two random cookies, assuming to be irrelevant.
 - The search range is specified in query parameters.
@@ -32,22 +39,26 @@ Let's look into the `Calendar` requests then:
 Here is the request copied as fetch:
 
 ```js
-await fetch("https://scientia-eu-v2-4-api-d4-02.azurewebsites.net/api/Calendar?StartDate=2021-09-30T23%3A00%3A00.000Z&EndDate=2021-10-31T23%3A59%3A59.999Z", {
-    "credentials": "include",
-    "headers": {
-        "User-Agent": "Mozilla/5.0 (X11; Linux i686; rv:100.0) Gecko/20100101 Firefox/100.0",
-        "Accept": "*/*",
-        "Accept-Language": "en-GB,en-US;q=0.7,en;q=0.3",
-        "Authorization": "Bearer [token]",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "cross-site",
-        "Sec-GPC": "1"
+await fetch(
+  "https://scientia-eu-v2-4-api-d4-02.azurewebsites.net/api/Calendar?StartDate=2021-09-30T23%3A00%3A00.000Z&EndDate=2021-10-31T23%3A59%3A59.999Z",
+  {
+    credentials: "include",
+    headers: {
+      "User-Agent":
+        "Mozilla/5.0 (X11; Linux i686; rv:100.0) Gecko/20100101 Firefox/100.0",
+      Accept: "*/*",
+      "Accept-Language": "en-GB,en-US;q=0.7,en;q=0.3",
+      Authorization: "Bearer [token]",
+      "Sec-Fetch-Dest": "empty",
+      "Sec-Fetch-Mode": "cors",
+      "Sec-Fetch-Site": "cross-site",
+      "Sec-GPC": "1",
     },
-    "referrer": "https://mytimetable.kcl.ac.uk/",
-    "method": "GET",
-    "mode": "cors"
-});
+    referrer: "https://mytimetable.kcl.ac.uk/",
+    method: "GET",
+    mode: "cors",
+  }
+);
 ```
 
 #### Valid Date (spanning one week)

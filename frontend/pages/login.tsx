@@ -9,30 +9,52 @@ const UUID = `[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0
 const URL_RE = `ical\/(${UUID})\/(${UUID})\/timetable.ics$`;
 
 const LoginPage = ({ user }: AuthInterface) => {
-	const [id, setId] = useState('');
+  const [id, setId] = useState("");
 
-	useEffect(() => {
-		let match = id.match(URL_RE);
-		if (match) {
-			setId(match[2]);
-		}
-	}, [ id ]);
+  useEffect(() => {
+    let match = id.match(URL_RE);
+    if (match) {
+      setId(match[2]);
+    }
+  }, [id]);
 
-	return (
-		<div className="select-none p-4 max-w-5xl mx-auto flex flex-col overflow-hidden h-screen">
-			<title>Login</title>
+  return (
+    <div className="select-none p-4 max-w-5xl mx-auto flex flex-col overflow-hidden h-screen">
+      <title>Login</title>
 
-			<Navbar user={user} />
+      <Navbar user={user} />
 
-			<form className="w-full max-w-md m-auto flex flex-col gap-4" method="POST" action="/api/login">
-				<Input placeholder="Enter UUID or subscribe URL" name="id" value={id} onChange={e => setId(e.currentTarget.value)} />
-				<Button type="submit">Login</Button>
-				<a className="text-center text-gray-700 hover:text-gray-900 underline" href="https://autumn.revolt.chat/attachments/gsXjnExz_NnKq-qgUzAdZ-dRui97Ul2DHvwF8gdeC5/image.png">How to get my subscribe URL?</a>
-			</form>
-			<Footer />
-		</div>
-	)
-}
+      <form
+        className="w-full max-w-md m-auto flex flex-col gap-4"
+        method="POST"
+        action="/api/login"
+      >
+        <Input
+          placeholder="Enter UUID or subscribe URL"
+          name="id"
+          value={id}
+          onChange={(e) => setId(e.currentTarget.value)}
+        />
+        <a
+          className="text-center text-gray-700 hover:text-gray-900 underline"
+          href="https://autumn.revolt.chat/attachments/gsXjnExz_NnKq-qgUzAdZ-dRui97Ul2DHvwF8gdeC5/image.png"
+        >
+          How to get my subscribe URL?
+        </a>
+        <Button type="submit">Login</Button>
+        <p className="text-red-700 text-center">
+          <b>Warning:</b> sometimes timetable will not fully sync on login,
+          please wait up to 24 hours for timetable to be synced.
+        </p>
+        <p className="text-center">
+          It will be kept up to date after initial sign-up.
+        </p>
+      </form>
 
-export { getServerSideProps } from '../lib/auth';
+      <Footer />
+    </div>
+  );
+};
+
+export { getServerSideProps } from "../lib/auth";
 export default LoginPage;
