@@ -6,7 +6,7 @@ import { Collection } from "mongodb";
 const NAME_RE = /^X-WR-CALNAME:([^\n]*)$/mi;
 
 export async function fetchAndParse(identity: string): Promise<{ data: Event[], firstname: string }> {
-    const res = await axios(`https://scientia-eu-v3-4-0-api-d4-02.azurewebsites.net/api/ical/${process.env.INSTITUTE}/${identity}/timetable.ics`, {
+    const res = await axios(`https://scientia-eu-v4-api-d4-02.azurewebsites.net//api/ical/${process.env.INSTITUTE}/${identity}/timetable.ics`, {
         headers: {
             "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36"
         },
