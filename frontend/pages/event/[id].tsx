@@ -1,6 +1,6 @@
 import Navbar from "../../components/Navbar";
 import Avatar from "../../components/Avatar";
-import { AuthInterface } from "../../lib/auth";
+import { AuthInterface, getServerSideProps as getProps } from "../../lib/auth";
 import { EventWithUsers } from "../../components/ListRenderer";
 
 import Utterances from "@insertish/utterances";
@@ -83,12 +83,9 @@ const IndexPage = ({ user, event }: Props) => {
     </div>
   );
 };
-
-import { getServerSideProps as getProps } from "../../lib/auth";
 import { connectToDatabase } from "../../lib/mongodb";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { EventEmitter } from "stream";
 import Summary from "../../components/Summary";
 import { TZ } from "../../lib/constants";
 
