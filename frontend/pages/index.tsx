@@ -6,7 +6,6 @@ import { backOff } from "exponential-backoff";
 import { Event, User } from "../lib/entities";
 import Preloader from "../components/Preloader";
 import ListRenderer, { Everything } from "../components/ListRenderer";
-import FilterableOptions from "../components/FilterableOptions";
 
 const IndexPage = ({ user }: AuthInterface) => {
 	const [data, setData] = useState<Everything | undefined>();
@@ -61,10 +60,8 @@ const IndexPage = ({ user }: AuthInterface) => {
 				<label htmlFor="prel" className={"hover:text-gray-900"}>Appreciate the preloader.</label>
 			</div>*/}
 
-			<FilterableOptions allOptions={["d", "s"]}/>
-
 			{ (preloader || typeof data === 'undefined') && <Preloader /> }
-			{ !preloader && data && <ListRenderer {...data} filter={user && filter} user={user?._id} /> }
+			{ !preloader && data && <ListRenderer {...data} filter={user && filter} user={user?._id} eventType="Assessments" /> }
 		</div>
 	)
 }
