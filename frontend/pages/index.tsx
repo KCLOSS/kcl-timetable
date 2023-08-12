@@ -6,6 +6,7 @@ import { backOff } from "exponential-backoff";
 import { Event, User } from "../lib/entities";
 import Preloader from "../components/Preloader";
 import ListRenderer, { Everything } from "../components/ListRenderer";
+import FilterableOptions from "../components/FilterableOptions";
 
 const IndexPage = ({ user }: AuthInterface) => {
 	const [data, setData] = useState<Everything | undefined>();
@@ -59,6 +60,8 @@ const IndexPage = ({ user }: AuthInterface) => {
 				<input className="mr-1" type="checkbox" id="prel" name="prel" checked={preloader} onChange={() => setPreloader(!preloader)} />
 				<label htmlFor="prel" className={"hover:text-gray-900"}>Appreciate the preloader.</label>
 			</div>*/}
+
+			<FilterableOptions allOptions={["d", "s"]}/>
 
 			{ (preloader || typeof data === 'undefined') && <Preloader /> }
 			{ !preloader && data && <ListRenderer {...data} filter={user && filter} user={user?._id} /> }
