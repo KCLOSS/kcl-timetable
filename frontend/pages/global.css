@@ -1,5 +1,6 @@
 html {
     image-rendering: smooth;
+    background-color: rgb(47, 57, 68);
 }
 
 .skeleton {
