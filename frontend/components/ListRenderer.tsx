@@ -8,17 +8,17 @@ import Entry from "./Entry";
 export type EventWithUsers = Omit<Event, 'people'> & { people: User[] };
 export type Everything = { users: Record<string, User>, events: EventWithUsers[] };
 
-type Props = Everything & { user?: string, filter: boolean, eventType?: string };
+type Props = Everything & { user?: string, filter: boolean, eventTypes?: string[] };
 type Groups = { date: string, events: EventWithUsers[] }[];
 
-export default function ListRenderer({ users, events, user, filter, eventType }: Props) {
+export default function ListRenderer({ users, events, user, filter, eventTypes }: Props) {
     const [groups, setGroups] = useState<Groups | undefined>();
 
     useEffect(() => {
         const groups = { };
         for (const event of events) {
             if (filter) {
-                if (!event.people.find(x => x._id === user) || (eventType && event.description !== eventType)) continue;
+                if (!event.people.find(x => x._id === user) || (eventTypes && !eventTypes?.includes(event.description))) continue;
             }
 
             const date = event.start.split('T').shift();
@@ -49,7 +49,7 @@ export default function ListRenderer({ users, events, user, filter, eventType }:
                 .filter(x => new Date(x.date) > today)
                 .sort((b, a) => +new Date(b.date) - +new Date(a.date))
         );
-    }, [users, events, filter, eventType]);
+    }, [users, events, filter, eventTypes]);
 
     const groupCounts = useMemo(() => groups ? groups.map(x => x.events.length) : [], [ groups ]);
 
