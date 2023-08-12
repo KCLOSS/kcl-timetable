@@ -69,35 +69,43 @@ const IndexPage = ({ user }: AuthInterface) => {
 
 			<Navbar user={user} />
 
-			<div className="flex items-center">
-			<label className="block font-medium mb-1">Select Event Types:</label>
+			<label className="block font-medium mb-1">Filter: </label>
 
-				<input className="mr-1" type="checkbox" id="self" name="self" checked={filter} onChange={() => setFilter(!filter)} disabled={!user} />
-				<label htmlFor="self" className={user ? "hover:text-gray-900" : "text-gray-500"}>my events</label>
+			<div className="flex items-center">
+				<div className="mr-2">
+					<input className="mr-1" type="checkbox" id="self" name="self" checked={filter} onChange={() => setFilter(!filter)} disabled={!user} />
+					<label htmlFor="self" className={user ? "hover:text-gray-900" : "text-gray-500"}>My Events</label>
+				</div>
 				
 				{Object.keys(eventTypes).map(eventType => (
-					<label className={
-						user 
-						? "hover:text-gray-900"
-						: "text-gray-500"
-						+ " ml-2 "
-						} key={eventType}>
+					<div className="flex items-center">
 						<input
-							disabled={!user}
+							className="mr-1"
 							type="checkbox"
+							id={eventType}
+							name={eventType}
+							disabled={!user}
 							checked={selectedEventTypes.includes(eventType)}
 							onChange={() => toggleEventType(eventType)}
 						/>
-						{eventTypes[eventType]}
-					</label>
+
+						<label
+							key={eventType} 
+							htmlFor={eventType}
+							className={
+								user
+								? "hover:text-gray-900"
+								: "text-gray-500"
+								+ (selectedEventTypes.includes(eventType) ? " font-medium" : "") // would be good if u wanna add it 
+								+ " mr-2"
+							}
+						>
+							{eventTypes[eventType]} 
+						</label>
+					</div>
 				))}
 
 			</div>
-
-			{/*<div className="flex items-center">
-				<input className="mr-1" type="checkbox" id="prel" name="prel" checked={preloader} onChange={() => setPreloader(!preloader)} />
-				<label htmlFor="prel" className={"hover:text-gray-900"}>Appreciate the preloader.</label>
-			</div>*/}
 
 			{ (preloader || typeof data === 'undefined') && <Preloader /> }
 			{!preloader && data && (
