@@ -8,11 +8,11 @@ import Preloader from "../components/Preloader";
 import ListRenderer, { Everything } from "../components/ListRenderer";
 
 export const eventTypes = {
-    Lecture: "Lecture",
-    SmallGroup: "Small Group",
+	Lecture: "Lecture",
+	SmallGroup: "Small Group",
 	Practical: "Practical",
-	MIS: "MIS",
-	Rev: "Rev",
+	Clinical: "Clinical",
+	Drop: "Drop in Session"
 };
 
 const IndexPage = ({ user }: AuthInterface) => {
@@ -78,15 +78,16 @@ const IndexPage = ({ user }: AuthInterface) => {
 				</div>
 				
 				{Object.keys(eventTypes).map(eventType => (
-					<div className="flex items-center">
+					<div className="flex items-center"
+					key={eventType}>
 						<input
 							className="mr-1"
 							type="checkbox"
 							id={eventType}
 							name={eventType}
 							disabled={!user}
-							checked={selectedEventTypes.includes(eventType)}
-							onChange={() => toggleEventType(eventType)}
+							checked={selectedEventTypes.includes(eventTypes[eventType])}
+							onChange={() => toggleEventType(eventTypes[eventType])}
 						/>
 
 						<label
@@ -96,7 +97,6 @@ const IndexPage = ({ user }: AuthInterface) => {
 								user
 								? "hover:text-gray-900"
 								: "text-gray-500"
-								+ (selectedEventTypes.includes(eventType) ? " font-medium" : "") // would be good if u wanna add it 
 								+ " mr-2"
 							}
 						>
