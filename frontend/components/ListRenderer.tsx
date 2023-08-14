@@ -4,6 +4,7 @@ import { Event, User } from "../lib/entities";
 import { GroupedVirtuoso } from "react-virtuoso";
 import Category from "./Category";
 import Entry from "./Entry";
+import { extractType } from "./Summary";
 
 export type EventWithUsers = Omit<Event, 'people'> & { people: User[] };
 export type Everything = { users: Record<string, User>, events: EventWithUsers[] };
@@ -17,8 +18,10 @@ export default function ListRenderer({ users, events, user, filter, eventTypes }
     useEffect(() => {
         const groups = { };
         for (const event of events) {
-            if (filter) {
-                if (!event.people.find(x => x._id === user) || (eventTypes && !eventTypes?.includes(event.description))) continue;
+            if (filter || eventTypes) {
+                
+                if (!event.people.find(x => x._id === user)
+                    || !eventTypes?.includes(extractType(event.summary))) continue;
             }
 
             const date = event.start.split('T').shift();
