@@ -7,10 +7,19 @@ import { Event, User } from "../lib/entities";
 import Preloader from "../components/Preloader";
 import ListRenderer, { Everything } from "../components/ListRenderer";
 
+export const eventTypes = {
+	Lecture: "Lecture",
+	SmallGroup: "Small Group",
+	Practical: "Practical",
+	Clinical: "Clinical",
+	Drop: "Drop in Session"
+};
+
 const IndexPage = ({ user }: AuthInterface) => {
 	const [data, setData] = useState<Everything | undefined>();
 	const [filter, setFilter] = useState(true);
 	const [preloader, setPreloader] = useState(false);
+	const [selectedEventTypes, setSelectedEventTypes] = useState<string[]>([]);
 
 	useEffect(() => {
 		if (typeof window !== 'undefined') {
@@ -40,6 +49,16 @@ const IndexPage = ({ user }: AuthInterface) => {
 		}
 	}, []);
 
+	const toggleEventType = (eventType: string) => {
+		setSelectedEventTypes(prevSelectedEventTypes => {
+			if (prevSelectedEventTypes.includes(eventType)) {
+				return prevSelectedEventTypes.filter(type => type !== eventType);
+			} else {
+				return [...prevSelectedEventTypes, eventType];
+			}
+		});
+	};
+
 	return (
 		<div className="select-none p-4 max-w-5xl mx-auto flex flex-col overflow-hidden h-screen">
 			<title>KCL Timetables</title>
@@ -50,18 +69,53 @@ const IndexPage = ({ user }: AuthInterface) => {
 
 			<Navbar user={user} />
 
+			<label className="block font-medium mb-1">Filter: </label>
+
 			<div className="flex items-center">
-				<input className="mr-1" type="checkbox" id="self" name="self" checked={filter} onChange={() => setFilter(!filter)} disabled={!user} />
-				<label htmlFor="self" className={user ? "hover:text-gray-900" : "text-gray-500"}>Filter my events.</label>
+				<div className="mr-2">
+					<input className="mr-1" type="checkbox" id="self" name="self" checked={filter} onChange={() => setFilter(!filter)} disabled={!user} />
+					<label htmlFor="self" className={user ? "hover:text-gray-900" : "text-gray-500"}>My Events</label>
+				</div>
+				
+				{Object.keys(eventTypes).map(eventType => (
+					<div className="flex items-center"
+					key={eventType}>
+						<input
+							className="mr-1"
+							type="checkbox"
+							id={eventType}
+							name={eventType}
+							disabled={!user}
+							checked={selectedEventTypes.includes(eventTypes[eventType])}
+							onChange={() => toggleEventType(eventTypes[eventType])}
+						/>
+
+						<label
+							key={eventType} 
+							htmlFor={eventType}
+							className={
+								user
+								? "hover:text-gray-900"
+								: "text-gray-500"
+								+ " mr-2"
+							}
+						>
+							{eventTypes[eventType]} 
+						</label>
+					</div>
+				))}
+
 			</div>
 
-			{/*<div className="flex items-center">
-				<input className="mr-1" type="checkbox" id="prel" name="prel" checked={preloader} onChange={() => setPreloader(!preloader)} />
-				<label htmlFor="prel" className={"hover:text-gray-900"}>Appreciate the preloader.</label>
-			</div>*/}
-
 			{ (preloader || typeof data === 'undefined') && <Preloader /> }
-			{ !preloader && data && <ListRenderer {...data} filter={user && filter} user={user?._id} /> }
+			{!preloader && data && (
+				<ListRenderer
+					{...data}
+					filter={user && filter}
+					user={user?._id}
+					eventTypes={selectedEventTypes}
+				/>
+			)}
 		</div>
 	)
 }
