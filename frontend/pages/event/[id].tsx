@@ -97,7 +97,7 @@ export async function getServerSideProps(context): Promise<{ props: Props }> {
   const client = await connectToDatabase();
 
   const event: any = await client
-    .db("timetables")
+    .db("kcl-timetables")
     .collection("events")
     .findOne({ _id: context.query.id });
 
@@ -107,7 +107,7 @@ export async function getServerSideProps(context): Promise<{ props: Props }> {
   event.end = event.end.toISOString();
 
   event.people = await client
-    .db("timetables")
+    .db("kcl-timetables")
     .collection("users")
     .find({ _id: { $in: event.people ?? [] } })
     .toArray();

@@ -7,7 +7,7 @@ export async function findUser(Identity?: string) {
     const client = await connectToDatabase();
     return {
         user: await client
-            .db('timetables')
+            .db('kcl-timetables')
             .collection('users')
             .findOne({ _id: Identity }) as User,
         client

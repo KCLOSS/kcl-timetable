@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     await client
-        .db('timetables')
+        .db('kcl-timetables')
         .collection('users')
         .updateOne({ _id: Identity }, { $set: { surname, avatar, bio } });
 

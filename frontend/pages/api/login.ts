@@ -9,8 +9,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method !== 'POST') return res.status(405).send('');
 
     const client = await connectToDatabase();
-    const users = client.db('timetables').collection('users');
-    const events = client.db('timetables').collection('events');
+    const users = client.db('kcl-timetables').collection('users');
+    const events = client.db('kcl-timetables').collection('events');
 
     const id = req.body.id;
     if (typeof id === 'string') {
