@@ -4,21 +4,24 @@ import { Event, User } from "../lib/entities";
 import { GroupedVirtuoso } from "react-virtuoso";
 import Category from "./Category";
 import Entry from "./Entry";
+import { extractType } from "./Summary";
 
 export type EventWithUsers = Omit<Event, 'people'> & { people: User[] };
 export type Everything = { users: Record<string, User>, events: EventWithUsers[] };
 
-type Props = Everything & { user?: string, filter: boolean };
+type Props = Everything & { user?: string, filter: boolean, eventTypes?: string[] };
 type Groups = { date: string, events: EventWithUsers[] }[];
 
-export default function ListRenderer({ users, events, user, filter }: Props) {
+export default function ListRenderer({ users, events, user, filter, eventTypes }: Props) {
     const [groups, setGroups] = useState<Groups | undefined>();
 
     useEffect(() => {
         const groups = { };
         for (const event of events) {
-            if (filter) {
-                if (!event.people.find(x => x._id === user)) continue;
+            if (filter || eventTypes) {
+                
+                if (!event.people.find(x => x._id === user)
+                    || !eventTypes?.includes(extractType(event.summary))) continue;
             }
 
             const date = event.start.split('T').shift();
@@ -49,7 +52,7 @@ export default function ListRenderer({ users, events, user, filter }: Props) {
                 .filter(x => new Date(x.date) > today)
                 .sort((b, a) => +new Date(b.date) - +new Date(a.date))
         );
-    }, [users, events, filter]);
+    }, [users, events, filter, eventTypes]);
 
     const groupCounts = useMemo(() => groups ? groups.map(x => x.events.length) : [], [ groups ]);
 

@@ -37,6 +37,15 @@ function typeToColor(type: string) {
     }
 }
 
+export function extractType(title: string): string | null {
+    const match = title.match(TITLE_RE);
+    if (match) {
+        const [, , , type] = match;
+        return typeToEng(type);
+    }
+    return null;
+}
+
 export default function Summary({ title }: Props) {
     const v = title.match(TITLE_RE);
     if (v) {
